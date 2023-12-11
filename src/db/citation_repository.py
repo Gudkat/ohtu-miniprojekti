@@ -55,12 +55,18 @@ class CitationRepository():
             if row[-1]:
                 citation.set_tag(row[-1])
 
+            column = 3
+
+
             for attribute in citation.attributes:
-                for column in range(3, len(row)):
-                    # If column already has value, break
-                    if row[column]:
+                # skipping empty columns
+                while column < len(row) and row[column] == '':
+                    column += 1
+                    if column == len(row):
                         break
+
                 attribute.set_value(row[column])
+                column += 1
 
             citations[row[0]] = citation
         return citations
